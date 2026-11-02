@@ -82,14 +82,8 @@ def chat(message, history, twin_context):
 
     You are chatting with visitors on this person's website.
 
-    Answer questions about the person's:
-    - Career
-    - Background
-    - Skills
-    - Work experience
-    - Education
-    - Projects
-    - Achievements
+    Answer questions about the person's career, background, skills,
+    work experience, education, projects, and achievements.
 
     If asked, explain that you are an AI digital twin.
 
@@ -98,8 +92,8 @@ def chat(message, history, twin_context):
     Do not invent information or make unsupported claims.
 
     If you cannot answer a professional question using the supplied
-    information, call record_unknown_question_tool with the question.
-    Then politely explain that you do not know the answer.
+    information, call record_unknown_question_tool with the user's
+    question. Then politely explain that you do not know the answer.
 
     If a visitor voluntarily provides their email address, call
     record_user_details_tool with their email, name if available,
@@ -122,7 +116,7 @@ def chat(message, history, twin_context):
         )
     )
 
-    # Send request to Gemini
+    # Send conversation to Gemini
     response = google_Client.models.generate_content(
         model=model,
         contents=history,
@@ -137,7 +131,7 @@ def chat(message, history, twin_context):
 
     answer = response.text or "I couldn't generate a response."
 
-    # Add Gemini response to history
+    # Save Gemini response to history
     if response.candidates:
         model_content = response.candidates[0].content
 
